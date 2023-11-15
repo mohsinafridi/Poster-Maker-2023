@@ -22,7 +22,7 @@ namespace PosterMaker.API.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
-            modelBuilder.Entity("PosterMaker.API.Models.Category", b =>
+            modelBuilder.Entity("PosterMaker.API.Models.App", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -43,6 +43,36 @@ namespace PosterMaker.API.Migrations
                         .HasColumnType("datetime2");
 
                     b.HasKey("Id");
+
+                    b.ToTable("Apps");
+                });
+
+            modelBuilder.Entity("PosterMaker.API.Models.Category", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("AppId")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("UpdatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("AppId");
 
                     b.ToTable("Categories");
                 });
@@ -77,6 +107,17 @@ namespace PosterMaker.API.Migrations
                     b.ToTable("Items");
                 });
 
+            modelBuilder.Entity("PosterMaker.API.Models.Category", b =>
+                {
+                    b.HasOne("PosterMaker.API.Models.App", "App")
+                        .WithMany("Categories")
+                        .HasForeignKey("AppId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("App");
+                });
+
             modelBuilder.Entity("PosterMaker.API.Models.Item", b =>
                 {
                     b.HasOne("PosterMaker.API.Models.Category", "Category")
@@ -86,6 +127,11 @@ namespace PosterMaker.API.Migrations
                         .IsRequired();
 
                     b.Navigation("Category");
+                });
+
+            modelBuilder.Entity("PosterMaker.API.Models.App", b =>
+                {
+                    b.Navigation("Categories");
                 });
 
             modelBuilder.Entity("PosterMaker.API.Models.Category", b =>

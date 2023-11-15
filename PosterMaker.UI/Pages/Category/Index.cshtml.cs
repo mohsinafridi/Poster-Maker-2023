@@ -9,7 +9,7 @@ namespace PosterMaker.UI.Pages.Category
         public List<Models.Category> Categories = new List<Models.Category>();
         public async Task<IActionResult> OnGetAsync()
         {
-            Categories = await HttpHelper.GetCategories();
+            Categories = await CategoryService.GetCategories();
             return Page();
         }
 

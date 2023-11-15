@@ -2,37 +2,35 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using PosterMaker.UI.Helpers;
+using System.IO;
 
 namespace PosterMaker.UI.Pages.Item
 {
     public class CreateModel : PageModel
     {
-        //public IActionResult OnGet()
-        //{
-        //    // return Page();
-        //    return RedirectToPage("/Create");
-        //}
-
         [BindProperty]
         public Models.Item? itemVm { get; set; }
 
-        public SelectList CategoryList { get; set; }       
+        [BindProperty]
+        public IFormFile Upload { get; set; }
+        public SelectList CategoryList { get; set; }
         public async Task OnGetAsync()
         {
-            var data  = await HttpHelper.GetCategories();
-           //  var List_Mode = GetDropDownList();
-            CategoryList = new SelectList(data, "Id", "Name");        
-          // var list = new SelectList(data, "Id", "Name");
+            var data = await CategoryService.GetCategories();
+            CategoryList = new SelectList(data, "Id", "Name");
         }
         public async Task<IActionResult> OnPostAsync()
         {
             if (ModelState.IsValid)
-            {                                
+            {                
+                //byte[] bytes = File.ReadAllBytes(Upload);
+              //  string file = Convert.ToBase64String(bytes);
+
                 var categoryId = Convert.ToInt32(Request.Form["SelectedCategory"]);
                 itemVm.CategoryId = categoryId;
-                var count = await HttpHelper.CreateItem(itemVm);
+                var count = await ItemService.CreateItem(itemVm);
                 if (count)
-                {                    
+                {
                     return RedirectToPage("/Item/Index");
                 }
             }

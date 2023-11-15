@@ -1,0 +1,30 @@
+﻿@page
+@model PosterMaker.UI.Pages.App.CreateModel
+
+@using PosterMaker.UI.Models
+@{
+    ViewData["Title"] = "Create new app";
+}
+
+
+
+<div class="container">
+    <div class="row ">
+        <div class="col-md-6 offset-md-3">
+            <form method="post">
+                <legend>Create A New Category</legend>
+                <div class="row">
+                    <div class="col-md-4">
+                        <label asp-for="appVM.Name"></label>
+                        <input asp-for="appVM.Name" class="form-control" />
+                        <span class="alert-danger" asp-validation-for="appVM.Name"></span>
+                    </div>
+                </div>
+
+                <br />
+                <input type="submit" value="Save App" class="btn btn-primary" />
+                <a class="btn btn-default" href="/App/Index">Cancel</a>
+            </form>
+        </div>
+    </div>
+</div>

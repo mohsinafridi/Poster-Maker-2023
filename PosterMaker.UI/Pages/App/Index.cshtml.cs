@@ -2,14 +2,14 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using PosterMaker.UI.Helpers;
 
-namespace PosterMaker.UI.Pages.Item
+namespace PosterMaker.UI.Pages.App
 {
     public class IndexModel : PageModel
     {
-        public List<Models.Item> ItemList = new List<Models.Item>();
+        public List<Models.App> AppList = new List<Models.App>();
         public async Task<IActionResult> OnGetAsync()
         {
-            ItemList = await ItemService.GetItems();
+            AppList = await AppService.GetApps();
             return Page();
         }
     }
