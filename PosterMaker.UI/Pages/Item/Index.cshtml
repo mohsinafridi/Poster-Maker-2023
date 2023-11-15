@@ -1,0 +1,27 @@
+﻿@page
+@model PosterMaker.UI.Pages.Item.IndexModel
+@using PosterMaker.UI.Models
+@{
+    ViewData["Title"] = "Category List";
+}
+
+
+
+@{
+    ViewData["Title"] = "Category List";
+}
+<div class="container">
+    <div class="row">
+        <a class="btn btn-default" href="/Item/Create">Add New Item</a>
+        @foreach (var item in Model.ItemList)
+        {
+            <div class="col-md-3 m-3">
+                <div class="card" style="width: 18rem;">
+                    <div class="card-body">
+                        <h5 class="card-title">@item.ItemName</h5>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+</div>

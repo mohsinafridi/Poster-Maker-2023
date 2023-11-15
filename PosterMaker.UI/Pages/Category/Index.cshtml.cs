@@ -1,0 +1,18 @@
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.RazorPages;
+using PosterMaker.UI.Helpers;
+
+namespace PosterMaker.UI.Pages.Category
+{
+    public class IndexModel : PageModel
+    {
+        public List<Models.Category> Categories = new List<Models.Category>();
+        public async Task<IActionResult> OnGetAsync()
+        {
+            Categories = await HttpHelper.GetCategories();
+            return Page();
+        }
+
+        
+    }
+}

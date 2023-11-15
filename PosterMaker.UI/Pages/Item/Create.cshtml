@@ -1,0 +1,38 @@
+﻿@page
+@model PosterMaker.UI.Pages.Item.CreateModel
+@{
+    ViewData["Title"] = "Create new Item";
+}
+
+@using PosterMaker.UI.Models
+
+<div class="container">
+    <div class="row ">
+        <div class="col-md-6 offset-md-3">
+            <form method="post">
+                <legend>Create A New Category</legend>
+                <div class="row">
+                    <div class="col-md-4">
+                        <label asp-for="itemVm.ItemName"></label>
+                        <input asp-for="itemVm.ItemName" class="form-control" />
+                        <span class="alert-danger" asp-validation-for="itemVm.ItemName"></span>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-4">
+                        <label asp-for="itemVm.CategoryId"></label>
+                        <select asp-for="itemVm.CategoryId" id="ddlCategories" name="SelectedCategory" asp-items="Model.CategoryList">
+                            <option value="0">Please select</option>
+                        </select>
+                        <span class="alert-danger" asp-validation-for="itemVm.ItemName"></span>
+                    </div>
+                </div>
+
+                <br />
+                <input type="submit" value="Save Item" class="btn btn-primary" />
+                <a class="btn btn-default" href="/Item/Index">Cancel</a>
+            </form>
+        </div>
+    </div>
+</div>
