@@ -1,0 +1,446 @@
+{
+	"info": {
+		"_postman_id": "c5f1eb8b-f231-4e42-8983-3feffc16ef2e",
+		"name": "Real Estate Api",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Users",
+			"item": [
+				{
+					"name": "Register User",
+					"item": [
+						{
+							"name": " http://yourdomain.com/api/users/register",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"Name\":\"Elon\",\r\n    \"Email\":\"elon@email.com\",\r\n    \"Password\":\"Elon1234\",\r\n    \"Phone\":\"222223345\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://yourdomain.com/api/users/register",
+									"protocol": "http",
+									"host": [
+										"yourdomain",
+										"com"
+									],
+									"path": [
+										"api",
+										"users",
+										"register"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Login User",
+					"item": [
+						{
+							"name": "  http://yourdomain.com/api/users/login",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n   \r\n    \"Email\":\"elon@email.com\",\r\n    \"Password\":\"Elon1234\"\r\n    \r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://yourdomain.com/api/users/login",
+									"protocol": "http",
+									"host": [
+										"yourdomain",
+										"com"
+									],
+									"path": [
+										"api",
+										"users",
+										"login"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "Categories",
+			"item": [
+				{
+					"name": "Get Categories",
+					"item": [
+						{
+							"name": "http://yourdomainl.com/api/categories",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "cyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9lbWFpbGFkZHJlc3MiOiJlbG9uQGVtYWlsLmNvbSIsImV4cCI6MTY3MDMzNTgwOSwiaXNzIjoiaHR0cHM6Ly9sb2NhbGhvc3Q6NzAyMi8iLCJhdWQiOiJodHRwczovL2xvY2FsaG9zdDo3MDIyLyJ9.jQzVNwaKm9E8oRwjLO3D0l7MZk_tk64Bj6Y4iG8wZ6o",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://yourdomainl.com/api/categories",
+									"protocol": "http",
+									"host": [
+										"yourdomainl",
+										"com"
+									],
+									"path": [
+										"api",
+										"categories"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "Properties",
+			"item": [
+				{
+					"name": "Properties List",
+					"item": [
+						{
+							"name": " http://yourdomain.com/api/Properties/PropertyList?categoryId=1",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "cyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9lbWFpbGFkZHJlc3MiOiJlbG9uQGVtYWlsLmNvbSIsImV4cCI6MTY3MDMzNTgwOSwiaXNzIjoiaHR0cHM6Ly9sb2NhbGhvc3Q6NzAyMi8iLCJhdWQiOiJodHRwczovL2xvY2FsaG9zdDo3MDIyLyJ9.jQzVNwaKm9E8oRwjLO3D0l7MZk_tk64Bj6Y4iG8wZ6o",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://yourdomain.com/api/Properties/PropertyList?categoryId=1",
+									"protocol": "http",
+									"host": [
+										"yourdomain",
+										"com"
+									],
+									"path": [
+										"api",
+										"Properties",
+										"PropertyList"
+									],
+									"query": [
+										{
+											"key": "categoryId",
+											"value": "1"
+										}
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Property Detail",
+					"item": [
+						{
+							"name": " http://yourdomain.com/api/Properties/PropertyDetail?id=1",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "cyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9lbWFpbGFkZHJlc3MiOiJhbmRyZXdAZW1haWwuY29tIiwiZXhwIjoxNjY5ODg4MTExLCJpc3MiOiJodHRwczovL2xvY2FsaG9zdDo3MDIyLyIsImF1ZCI6Imh0dHBzOi8vbG9jYWxob3N0OjcwMjIvIn0.0ybrHVSy52zD2qRUMBzu30Cw_fQ21NNn_KKHDcdKqno",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://yourdomain.com/api/Properties/PropertyDetail?id=1",
+									"protocol": "http",
+									"host": [
+										"yourdomain",
+										"com"
+									],
+									"path": [
+										"api",
+										"Properties",
+										"PropertyDetail"
+									],
+									"query": [
+										{
+											"key": "id",
+											"value": "1"
+										}
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Trending Properties",
+					"item": [
+						{
+							"name": " http://yourdomain.com/api/Properties/TrendingProperties",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "cyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9lbWFpbGFkZHJlc3MiOiJlbG9uQGVtYWlsLmNvbSIsImV4cCI6MTY3MDMzNTgwOSwiaXNzIjoiaHR0cHM6Ly9sb2NhbGhvc3Q6NzAyMi8iLCJhdWQiOiJodHRwczovL2xvY2FsaG9zdDo3MDIyLyJ9.jQzVNwaKm9E8oRwjLO3D0l7MZk_tk64Bj6Y4iG8wZ6o",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://yourdomain.com/api/Properties/TrendingProperties",
+									"protocol": "http",
+									"host": [
+										"yourdomain",
+										"com"
+									],
+									"path": [
+										"api",
+										"Properties",
+										"TrendingProperties"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Search Properties",
+					"item": [
+						{
+							"name": " http://yourdomain.com/api/Properties/SearchProperties?address=Tower",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "cyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9lbWFpbGFkZHJlc3MiOiJlbG9uQGVtYWlsLmNvbSIsImV4cCI6MTY3MDMzNTgwOSwiaXNzIjoiaHR0cHM6Ly9sb2NhbGhvc3Q6NzAyMi8iLCJhdWQiOiJodHRwczovL2xvY2FsaG9zdDo3MDIyLyJ9.jQzVNwaKm9E8oRwjLO3D0l7MZk_tk64Bj6Y4iG8wZ6o",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://yourdomain.com/api/Properties/SearchProperties?address=Tower",
+									"protocol": "http",
+									"host": [
+										"yourdomain",
+										"com"
+									],
+									"path": [
+										"api",
+										"Properties",
+										"SearchProperties"
+									],
+									"query": [
+										{
+											"key": "address",
+											"value": "Tower"
+										}
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "Bookmarks",
+			"item": [
+				{
+					"name": "Get Bookmarks",
+					"item": [
+						{
+							"name": " http://yourdomain.com/api/bookmarks",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "cyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9lbWFpbGFkZHJlc3MiOiJBbmRyZXdAZW1haWwuY29tIiwiZXhwIjoxNjY5Nzk3NTQ3LCJpc3MiOiJodHRwczovL2xvY2FsaG9zdDo3MDIyLyIsImF1ZCI6Imh0dHBzOi8vbG9jYWxob3N0OjcwMjIvIn0.FDRX_WFBkAc3BTlyXmKLapT8ojsqB1mHgBAMie6gPgU",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://yourdomain.com/api/bookmarks",
+									"protocol": "http",
+									"host": [
+										"yourdomain",
+										"com"
+									],
+									"path": [
+										"api",
+										"bookmarks"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Add Bookmark",
+					"item": [
+						{
+							"name": " http://yourdomain.com/api/bookmarks",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "cyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9lbWFpbGFkZHJlc3MiOiJBbmRyZXdAZW1haWwuY29tIiwiZXhwIjoxNjY5Nzk3NTQ3LCJpc3MiOiJodHRwczovL2xvY2FsaG9zdDo3MDIyLyIsImF1ZCI6Imh0dHBzOi8vbG9jYWxob3N0OjcwMjIvIn0.FDRX_WFBkAc3BTlyXmKLapT8ojsqB1mHgBAMie6gPgU",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"User_Id\":\"1\",\r\n    \"PropertyId\":\"1\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://yourdomain.com/api/bookmarks",
+									"protocol": "http",
+									"host": [
+										"yourdomain",
+										"com"
+									],
+									"path": [
+										"api",
+										"bookmarks"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Delete Bookmark",
+					"item": [
+						{
+							"name": " http://yourdomain.com/api/bookmarks/1",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "cyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9lbWFpbGFkZHJlc3MiOiJBbmRyZXdAZW1haWwuY29tIiwiZXhwIjoxNjY5Nzk3NTQ3LCJpc3MiOiJodHRwczovL2xvY2FsaG9zdDo3MDIyLyIsImF1ZCI6Imh0dHBzOi8vbG9jYWxob3N0OjcwMjIvIn0.FDRX_WFBkAc3BTlyXmKLapT8ojsqB1mHgBAMie6gPgU",
+											"type": "string"
+										}
+									]
+								},
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "http://yourdomain.com/api/bookmarks/1",
+									"protocol": "http",
+									"host": [
+										"yourdomain",
+										"com"
+									],
+									"path": [
+										"api",
+										"bookmarks",
+										"1"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				}
+			]
+		}
+	],
+	"auth": {
+		"type": "bearer"
+	},
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	]
+}

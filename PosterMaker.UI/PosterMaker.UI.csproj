@@ -15,6 +15,9 @@
 
   <ItemGroup>
     <Folder Include="wwwroot\images\items\" />
+    <Folder Include="wwwroot\images\app\" />
+    <Folder Include="wwwroot\images\category\" />
+    <Folder Include="wwwroot\json-files\" />
   </ItemGroup>
 
 </Project>

@@ -14,15 +14,23 @@
                 <div class="row">
                     <div class="col-md-6">
                         <label asp-for="ItemVm.ItemName">Name:</label>
-                        <input asp-for="ItemVm.ItemName" class="form-control" id="Name" />
+                        <input asp-for="ItemVm.ItemName" class="form-control" id="Name" />                        
                         <span class="alert-danger" asp-validation-for="ItemVm.ItemName"></span>
+                    </div>
+                </div>
+
+                <div class="row mt-3">
+                    <div class="col-md-6">
+                        <label asp-for="JsonFile">Upload Json File:</label>
+                        <input type="file" asp-for="JsonFile" class="form-control" id="jsonFile" accept="application/json,.pdf" />
+                        <span class="alert-danger" asp-validation-for="JsonFile"></span>
                     </div>
                 </div>
 
 
                 <div class="row mt-3">
                     <div class="col-md-6">
-                        <label asp-for="ItemVm.ItemName">Image:</label>
+                        <label asp-for="ItemVm.ItemName">Upload Thumbnail:</label>
                         <input type="file" asp-for="ItemImage" class="form-control" id="File" />
                         <span class="alert-danger" asp-validation-for="ItemVm.ItemName"></span>
                     </div>
@@ -32,10 +40,10 @@
                     <div class="col-md-6">
                         <label asp-for="ItemVm.CategoryId">Category:</label>
                         <select asp-for="ItemVm.CategoryId" id="ddlCategories"
-                        name="SelectedCategory" asp-items="Model.CategoryList" class="form-control">
+                        name="SelectedCategoryId" asp-items="Model.CategoryList" class="form-control">
                             <option value="0">Please select</option>
                         </select>
-                        <span class="alert-danger" asp-validation-for="ItemVm.ItemName"></span>
+                        <span class="alert-danger" asp-validation-for="ItemVm.CategoryId"></span>
                     </div>
                 </div>
 
@@ -54,6 +62,16 @@
         $(function () {
             var _URL = window.URL || window.webkitURL;
 
+           
+            $("#jsonFile").change(function (e) {
+                var ext = $('#jsonFile').val().split('.').pop().toLowerCase();
+                if ($.inArray(ext, ['json', 'pdf']) == -1) {
+                    alert('invalid extension!');
+                    $("#jsonFile").val('');
+                }
+            });
+
+
             $("#File").change(function (e) {
                 var file, img;
                 if ((file = this.files[0])) {
@@ -61,6 +79,7 @@
                     img.onload = function () {
                         if (this.width > 500 || this.height > 500) {
                             alert("upload image 500 * 500 or less.");
+                            $("#File").val('');
                         }
                     };
                     img.onerror = function () {

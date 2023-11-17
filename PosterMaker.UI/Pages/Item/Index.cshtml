@@ -1,27 +1,24 @@
 ﻿@page
 @model PosterMaker.UI.Pages.Item.IndexModel
 @using PosterMaker.UI.Models
-@{
-    ViewData["Title"] = "Category List";
-}
-
 
 
 @{
-    ViewData["Title"] = "Category List";
+    ViewData["Title"] = "Item List";
 }
 <div class="container">
     <div class="row">
-        <a class="btn btn-default" href="/Item/CreateItem">Add New Item</a>
+        <a class="btn btn-default" href="/Item/CreateItem">Add a new Item</a>
         @foreach (var item in Model.ItemList)
         {
             <div class="col-md-3 m-3">
                 <div class="card" style="width: 18rem;">
                     <div class="card-body">
                         <h5 class="card-title">@item.ItemName</h5>
-                        <img src="data:image;base64,@System.Convert.ToBase64String(item.Content)"
-                                alt='@item.ItemName' 
-                                class='img-fluid'>
+                        <img src="@item.ThumbnailPath"
+                             alt='@item.ItemName'
+                             class='img-fluid'>
+                        <a href="@item.JsonPath" download="@item.JsonPath">Download File</a>
                         <span class="card-title">@item.CreatedAt</span>
                     </div>
                 </div>

@@ -7,14 +7,18 @@
     ViewData["Title"] = "Category List";
 }
 <div class="container">
-    <div class="row">    
-        <a class="btn btn-default" href="/Category/Create">Add New Category</a>
+    <div class="row">
+        <a class="btn btn-default" href="/Category/CreateCategory">Add a new Category</a>
         @foreach (var item in Model.Categories)
         {
             <div class="col-md-3 m-3">
                 <div class="card" style="width: 18rem;">
                     <div class="card-body">
                         <h5 class="card-title">@item.Name</h5>
+                        <img src="@item.ThumbnailPath"
+                             alt='@item.Name'
+                             class='img-fluid'>
+                        <span class="card-title">@item.CreatedAt</span>
                     </div>
                 </div>
             </div>

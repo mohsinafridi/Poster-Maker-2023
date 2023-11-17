@@ -24,15 +24,15 @@
 
                 <div class="row mt-3">
                     <div class="col-md-6">
-                        <label asp-for="AppVM.ImageFile">Image File:</label>
-                        <input type="file" asp-for="ImageFile" class="form-control" id="File" onchange="checkImage()" />
-                        <span class="alert-danger" asp-validation-for="AppVM.ImageFile"></span>
+                        <label asp-for="ImageFile">Image File:</label>
+                        <input type="file" asp-for="ImageFile" class="form-control" id="File" />
+                        <span class="alert-danger" asp-validation-for="ImageFile"></span>
                     </div>
                 </div>
 
 
                 <br />
-                <input type="button" id="btn-add-app1" value="Save App" class="btn btn-primary" />
+                <input type="submit" id="btn-add-app1" value="Save App" class="btn btn-primary" />
                 <a class="btn btn-default" href="/App/Index">Cancel</a>
             </form>
         </div>
@@ -52,7 +52,7 @@
                     img = new Image();
                     img.onload = function () {
                         if (this.width > 500 || this.height > 500) {
-                            alert("upload image 500 * 500 or less.");
+                            alert("upload image 500 * 500 or less."); $("#File").val('');
                         }
                     };
                     img.onerror = function () {

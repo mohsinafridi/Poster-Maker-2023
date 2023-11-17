@@ -27,12 +27,20 @@ namespace PosterMaker.UI.Pages.App
                     return BadRequest("No image file uploaded.");
                 }
 
-                //var imagePath = Path.Combine("wwwroot", "images", ImageFile.FileName);
-                //using (var stream = new FileStream(imagePath, FileMode.Create))
-                //{
-                //    await ImageFile.CopyToAsync(stream);
-                //}
-                AppVM.ThumbnailPath = "";
+                string randomImageFileName = Path.GetFileNameWithoutExtension(ImageFile.FileName) +
+                       "_" + Guid.NewGuid().ToString().Substring(0, 4) + Path.GetExtension(ImageFile.FileName);
+
+                string fullPath = Path.Combine(Directory.GetCurrentDirectory(), @"wwwroot", "images\\app", randomImageFileName);
+
+                string imagePath = Path.GetFileName(fullPath);
+
+                using (var stream = new FileStream(fullPath, FileMode.Create))
+                {
+                    await ImageFile.CopyToAsync(stream);
+                }
+                
+                AppVM.ThumbnailPath = "\\images\\app\\" + imagePath;
+                AppVM.CreatedAt = DateTime.Now;
 
                 var isSaved = await AppService.CreateApp(AppVM);
                 if (isSaved)

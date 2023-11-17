@@ -11,6 +11,7 @@ public class Item
     public bool IsDeleted { get; set; } = false;
     public int CategoryId { get; set; }
     public string? ThumbnailPath { get; set; }
+    public string? JsonPath { get; set; }
     public Category Category { get; set; } = null!;
 
     

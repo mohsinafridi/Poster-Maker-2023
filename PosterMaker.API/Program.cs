@@ -116,8 +116,7 @@ app.MapPost("/api/create-app", async ([FromBody] App app, AppDbContext db) =>
     //    }).FirstOrDefault();
     //return Results.Ok(returndata);
 })
-.WithName("CreateApp")
-.Accepts<FileViewModel>("multipart/form-data");
+.WithName("CreateApp");
 
 
 
@@ -161,8 +160,7 @@ app.MapPost("/api/create-category", async ([FromBody] Category category, AppDbCo
     return Results.Created($"/Item/{category.Id}", category);
 
 })
-.WithName("CreateCategory")
-.Accepts<CategoryViewModel>("multipart/form-data");
+.WithName("CreateCategory");
 
 app.MapGet("/api/category/{id}", async (int id, AppDbContext db) =>
 {
@@ -259,6 +257,7 @@ app.MapGet("/api/category-items/{id}", async (int id, AppDbContext db) =>
         x.Category.Name,
         x.ItemName,
         x.ThumbnailPath,
+        x.JsonPath,
         x.Id
     })
     .ToListAsync();
