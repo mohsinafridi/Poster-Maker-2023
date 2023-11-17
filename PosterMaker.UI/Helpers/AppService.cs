@@ -1,4 +1,5 @@
 ﻿using Newtonsoft.Json;
+using PosterMaker.UI.DTOs;
 using PosterMaker.UI.Models;
 using System.Text;
 
@@ -15,6 +16,15 @@ namespace PosterMaker.UI.Helpers
             return JsonConvert.DeserializeObject<List<App>>(response);
         }
 
+
+        public static async Task<List<AppCategory>> GetCategoriesByAppId(int appId)
+        {
+            var httpClient = new HttpClient();
+
+            var response = await httpClient.GetStringAsync(AppSettings.ApiUrl + "api/app-categories/"+appId);
+
+            return JsonConvert.DeserializeObject<List<AppCategory>>(response);
+        }
         public static async Task<bool> CreateApp(App app)
         {
 

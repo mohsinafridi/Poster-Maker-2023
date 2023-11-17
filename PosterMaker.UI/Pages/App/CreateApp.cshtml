@@ -1,0 +1,89 @@
+﻿@page
+@model PosterMaker.UI.Pages.App.CreateModel
+
+@using PosterMaker.UI.Models
+@{
+    ViewData["Title"] = "Create new app";
+}
+
+
+
+<div class="container">
+    <div class="row ">
+        <div class="col-md-6 offset-md-3">
+            <form method="post" enctype="multipart/form-data">
+                <legend>Create new app</legend>
+                <div class="row">
+                    <div class="col-md-6">
+                        <label asp-for="AppVM.Name">Name:</label>
+                        <input asp-for="AppVM.Name" class="form-control" id="Name" />
+                        <span class="alert-danger" asp-validation-for="AppVM.Name"></span>
+                    </div>
+                </div>
+
+
+                <div class="row mt-3">
+                    <div class="col-md-6">
+                        <label asp-for="AppVM.ImageFile">Image File:</label>
+                        <input type="file" asp-for="ImageFile" class="form-control" id="File" onchange="checkImage()" />
+                        <span class="alert-danger" asp-validation-for="AppVM.ImageFile"></span>
+                    </div>
+                </div>
+
+
+                <br />
+                <input type="button" id="btn-add-app1" value="Save App" class="btn btn-primary" />
+                <a class="btn btn-default" href="/App/Index">Cancel</a>
+            </form>
+        </div>
+    </div>
+    <div id="imagepreview" style="width:50px;height:50px;">
+    </div>
+</div>
+
+@section Scripts{
+    <script>
+        $(function () {
+            var _URL = window.URL || window.webkitURL;
+
+            $("#File").change(function (e) {
+                var file, img;
+                if ((file = this.files[0])) {
+                    img = new Image();
+                    img.onload = function () {
+                        if (this.width > 500 || this.height > 500) {
+                            alert("upload image 500 * 500 or less.");
+                        }
+                    };
+                    img.onerror = function () {
+                        alert("not a valid file: " + file.type);
+                    };
+                    img.src = _URL.createObjectURL(file);
+                }
+
+            });
+
+            $("#btn-add-app").click(function () {
+                debugger;
+                var fd = new FormData();
+                fd.append('name', $("#Name").val())
+                fd.append('file', $('#File')[0].files[0]);
+
+                $.ajax({
+                    url: "http://localhost:98/api/create-app",
+                    data: fd,
+                    processData: false,
+                    contentType: false,
+                    method: "post",
+                    // headers: {
+                    //     RequestVerificationToken:
+                    //         $('input:hidden[name="__RequestVerificationToken"]').val()
+                    // },
+                    success: function (response) {                    
+                        $("#imagepreview").append("<img src='" + response.imageBase64 + "' alt='' class='img-fluid'>");
+                    }
+                })
+            });
+        });
+    </script>
+}

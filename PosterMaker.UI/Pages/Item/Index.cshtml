@@ -12,13 +12,17 @@
 }
 <div class="container">
     <div class="row">
-        <a class="btn btn-default" href="/Item/Create">Add New Item</a>
+        <a class="btn btn-default" href="/Item/CreateItem">Add New Item</a>
         @foreach (var item in Model.ItemList)
         {
             <div class="col-md-3 m-3">
                 <div class="card" style="width: 18rem;">
                     <div class="card-body">
                         <h5 class="card-title">@item.ItemName</h5>
+                        <img src="data:image;base64,@System.Convert.ToBase64String(item.Content)"
+                                alt='@item.ItemName' 
+                                class='img-fluid'>
+                        <span class="card-title">@item.CreatedAt</span>
                     </div>
                 </div>
             </div>

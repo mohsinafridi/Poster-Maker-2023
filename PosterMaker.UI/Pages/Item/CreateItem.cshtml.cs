@@ -3,16 +3,17 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using PosterMaker.UI.Helpers;
 using System.IO;
+using System.Reflection;
 
 namespace PosterMaker.UI.Pages.Item
 {
     public class CreateModel : PageModel
     {
         [BindProperty]
-        public Models.Item? itemVm { get; set; }
+        public Models.Item? ItemVm { get; set; }
 
         [BindProperty]
-        public IFormFile Upload { get; set; }
+        public IFormFile ItemImage { get; set; }
         public SelectList CategoryList { get; set; }
         public async Task OnGetAsync()
         {
@@ -22,13 +23,23 @@ namespace PosterMaker.UI.Pages.Item
         public async Task<IActionResult> OnPostAsync()
         {
             if (ModelState.IsValid)
-            {                
-                //byte[] bytes = File.ReadAllBytes(Upload);
-              //  string file = Convert.ToBase64String(bytes);
+            {
+                if (ItemImage == null || ItemImage.Length == 0)
+                {
+                    return BadRequest("No image file uploaded.");                    
+                }
+
+
+                var imagePath = Path.Combine("wwwroot", "item/images", ItemImage.FileName);
+                using (var stream = new FileStream(imagePath, FileMode.Create))
+                {
+                    await ItemImage.CopyToAsync(stream);
+                }
 
                 var categoryId = Convert.ToInt32(Request.Form["SelectedCategory"]);
-                itemVm.CategoryId = categoryId;
-                var count = await ItemService.CreateItem(itemVm);
+                ItemVm.CategoryId = categoryId;
+                ItemVm.ThumbnailPath = imagePath;
+                var count = await ItemService.CreateItem(ItemVm);
                 if (count)
                 {
                     return RedirectToPage("/Item/Index");

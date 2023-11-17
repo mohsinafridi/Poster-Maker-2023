@@ -1,0 +1,98 @@
+﻿@page
+@model PosterMaker.UI.Pages.Item.CreateModel
+@{
+    ViewData["Title"] = "Create new Item";
+}
+
+@using PosterMaker.UI.Models
+
+<div class="container">
+    <div class="row ">
+        <div class="col-md-6 offset-md-3">
+            <form method="post" enctype="multipart/form-data">
+                <legend>Create a new item</legend>
+                <div class="row">
+                    <div class="col-md-6">
+                        <label asp-for="ItemVm.ItemName">Name:</label>
+                        <input asp-for="ItemVm.ItemName" class="form-control" id="Name" />
+                        <span class="alert-danger" asp-validation-for="ItemVm.ItemName"></span>
+                    </div>
+                </div>
+
+
+                <div class="row mt-3">
+                    <div class="col-md-6">
+                        <label asp-for="ItemVm.ItemName">Image:</label>
+                        <input type="file" asp-for="ItemImage" class="form-control" id="File" />
+                        <span class="alert-danger" asp-validation-for="ItemVm.ItemName"></span>
+                    </div>
+                </div>
+
+                <div class="row mt-3">
+                    <div class="col-md-6">
+                        <label asp-for="ItemVm.CategoryId">Category:</label>
+                        <select asp-for="ItemVm.CategoryId" id="ddlCategories"
+                        name="SelectedCategory" asp-items="Model.CategoryList" class="form-control">
+                            <option value="0">Please select</option>
+                        </select>
+                        <span class="alert-danger" asp-validation-for="ItemVm.ItemName"></span>
+                    </div>
+                </div>
+
+                <br />
+                <input type="submit" id="btn-add-item2" value="Save Item" class="btn btn-primary" />
+                <a class="btn btn-default" href="/Item/Index">Cancel</a>
+            </form>
+        </div>
+    </div>
+    <div id="imagepreview" style="width:50px;height:50px;">
+    </div>
+</div>
+
+@section Scripts{
+    <script>
+        $(function () {
+            var _URL = window.URL || window.webkitURL;
+
+            $("#File").change(function (e) {
+                var file, img;
+                if ((file = this.files[0])) {
+                    img = new Image();
+                    img.onload = function () {
+                        if (this.width > 500 || this.height > 500) {
+                            alert("upload image 500 * 500 or less.");
+                        }
+                    };
+                    img.onerror = function () {
+                        alert("not a valid file: " + file.type);
+                    };
+                    img.src = _URL.createObjectURL(file);
+                }
+
+            });
+
+            $("#btn-add-item").click(function () {
+                debugger;
+                var fd = new FormData();
+                fd.append('name', $("#Name").val())
+                fd.append('file', $('#File')[0].files[0]);
+                fd.append('categoryId', $("#ddlCategories").val());
+
+                $.ajax({
+                    url: "http://localhost:98/api/create-item",
+                    data: fd,
+                    processData: false,
+                    contentType: false,
+                    method: "post",
+                    // headers: {
+                    //     RequestVerificationToken:
+                    //         $('input:hidden[name="__RequestVerificationToken"]').val()
+                    // },
+                    success: function (response) {
+                        $("#imagepreview").append("<img src='" + response.imageBase64 + "' alt='' class='img-fluid'>");
+                    }
+                })
+            });
+        });
+    </script>
+}

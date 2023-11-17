@@ -1,0 +1,90 @@
+﻿@page
+
+@model PosterMaker.UI.Pages.Category.CreateModel
+
+@using PosterMaker.UI.Models
+
+@{
+    ViewData["Title"] = "Create new category";
+}
+
+
+<div class="container">
+    <div class="row ">
+        <div class="col-md-6 offset-md-3">
+            <form method="post">
+                <legend>Create A New Category</legend>
+                <div class="row">
+                    <div class="col-md-4">
+                        <label asp-for="categoryVm.Name">Name:</label>
+                        <input asp-for="categoryVm.Name" class="form-control" />
+                        <span class="alert-danger" asp-validation-for="categoryVm.Name"></span>
+                    </div>
+                </div>
+
+
+                <div class="row mt-3">
+                    <div class="col-md-6">
+                        <label asp-for="categoryVm.AppId">App:</label>
+                        <select asp-for="categoryVm.AppId" id="ddlApps" name="SelectedApp" asp-items="Model.AppList" class="form-control">
+                            <option value="0">Please select</option>
+                        </select>
+                        <span class="alert-danger" asp-validation-for="categoryVm.AppId"></span>
+                    </div>
+                </div>
+
+
+                <br />
+                <input type="submit" value="Save Category" class="btn btn-primary" />
+                <a class="btn btn-default" href="/Category/Index">Cancel</a>
+            </form>
+        </div>
+    </div>
+</div>
+
+@section Scripts{
+    <script>
+        $(function () {
+            var _URL = window.URL || window.webkitURL;
+
+            $("#File").change(function (e) {
+                var file, img;
+                if ((file = this.files[0])) {
+                    img = new Image();
+                    img.onload = function () {
+                        if (this.width > 500 || this.height > 500) {
+                            alert("upload image 500 * 500 or less.");
+                        }
+                    };
+                    img.onerror = function () {
+                        alert("not a valid file: " + file.type);
+                    };
+                    img.src = _URL.createObjectURL(file);
+                }
+
+            });
+
+            $("#btn-add-app").click(function () {
+                debugger;
+                var fd = new FormData();
+                fd.append('name', $("#Name").val())
+                fd.append('file', $('#File')[0].files[0]);
+
+                $.ajax({
+                    url: "http://localhost:98/api/create-category",
+                    data: fd,
+                    processData: false,
+                    contentType: false,
+                    method: "post",
+                    // headers: {
+                    //     RequestVerificationToken:
+                    //         $('input:hidden[name="__RequestVerificationToken"]').val()
+                    // },
+                    success: function (response) {
+                        $("#imagepreview").append("<img src='" + response.imageBase64 + "' alt='' class='img-fluid'>");
+                    }
+                })
+            });
+        });
+    </script>
+}

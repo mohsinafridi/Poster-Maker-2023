@@ -1,13 +1,17 @@
+using Azure.Core;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using PosterMaker.API.Data;
 using PosterMaker.API.Models;
+using PosterMaker.API.ViewModel;
+using System.IO.Compression;
+using System.Text.Json.Serialization;
 
 var builder = WebApplication.CreateBuilder(args);
 
 
 
-string ConnectionString = @"Server=AEADLT19726;Initial Catalog=posterdb;MultipleActiveResultSets=true;User ID=sa;Password=Maqta@7788;TrustServerCertificate=True";
+string ConnectionString = @"Server=AEADLT19726;Initial Catalog=poster_db;MultipleActiveResultSets=true;User ID=sa;Password=Maqta@7788;TrustServerCertificate=True";
 builder
     .Services
     .AddDbContextFactory<AppDbContext>(opt => opt.UseSqlServer(ConnectionString));
@@ -15,6 +19,20 @@ builder
 
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+
+builder.Services.AddControllers().AddJsonOptions(options =>
+{
+    options.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles;
+    options.JsonSerializerOptions.WriteIndented = true;
+});
+
+// CORS
+//services cors
+builder.Services.AddCors(p => p.AddPolicy("corsapp", builder =>
+{
+    builder.WithOrigins("*").AllowAnyMethod().AllowAnyHeader();
+}));
+
 
 var app = builder.Build();
 
@@ -27,7 +45,7 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
-app.MapGet("/test", () =>  "Test");
+app.MapGet("/test", () => "Test");
 
 #region "App"
 app.MapGet("/api/app-list", async (AppDbContext db) =>
@@ -58,11 +76,50 @@ app.MapGet("/api/app/{id}", async (int id, AppDbContext db) =>
 app.MapPost("/api/create-app", async ([FromBody] App app, AppDbContext db) =>
 {
     await db.Apps.AddAsync(app);
+
     db.SaveChanges();
+
     return Results.Created($"/Item/{app.Id}", app);
 
+    // New Addition
+    //using (var memoryStream = new MemoryStream())
+    //{
+    //    await file.CopyToAsync(memoryStream);
+
+    //    // Upload the file if less than 2 MB
+    //    if (memoryStream.Length < 2097152)
+    //    {
+    //        //create a AppFile mdoel and save the image into database.
+    //        var appObj = new App()
+    //        {
+    //            Name = file.FileName,
+    //            Content = memoryStream.ToArray()
+    //        };
+
+    //        await db.Apps.AddAsync(appObj);
+    //        db.SaveChanges();
+    //    }
+    //    else
+    //    {
+    //        return Results.Ok("Invalid Image");
+    //    }
+    //}
+
+    //// Return image file
+
+    //var returndata = db.Apps
+    //    .Where(c => c.Name == file.FileName)
+    //    .Select(c => new ReturnData()
+    //    {
+    //        Name = c.Name,
+    //        ImageBase64 = String.Format("data:image/png;base64,{0}", Convert.ToBase64String(c.Content))
+    //    }).FirstOrDefault();
+    //return Results.Ok(returndata);
 })
-.WithName("CreateApp");
+.WithName("CreateApp")
+.Accepts<FileViewModel>("multipart/form-data");
+
+
 
 app.MapPut("/api/update-app/{id}", async (int id, [FromBody] App app, AppDbContext db) =>
 {
@@ -98,11 +155,14 @@ app.MapGet("/api/category-list", async (AppDbContext db) =>
 app.MapPost("/api/create-category", async ([FromBody] Category category, AppDbContext db) =>
 {
     await db.Categories.AddAsync(category);
+
     db.SaveChanges();
-    return Results.Created($"/Category/{category.Id}", category);
+
+    return Results.Created($"/Item/{category.Id}", category);
 
 })
-.WithName("CreateCategory");
+.WithName("CreateCategory")
+.Accepts<CategoryViewModel>("multipart/form-data");
 
 app.MapGet("/api/category/{id}", async (int id, AppDbContext db) =>
 {
@@ -149,9 +209,10 @@ app.MapGet("/api/item/{id}", async (int id, AppDbContext db) =>
 app.MapPost("/api/create-item", async ([FromBody] Item item, AppDbContext db) =>
 {
     await db.Items.AddAsync(item);
+    
     db.SaveChanges();
-    return Results.Created($"/Item/{item.Id}", item);
 
+    return Results.Created($"/Item/{item.Id}", item);
 })
 .WithName("CreateItem");
 
@@ -171,19 +232,44 @@ app.MapPut("/api/update-Item/{id}", async (int id, [FromBody] Item item, AppDbCo
 
 #endregion
 
-app.MapGet("/api/app-categories/{id}", async (int appId, AppDbContext db) =>
+app.MapGet("/api/app-categories/{id}", async (int id, AppDbContext db) =>
 {
-    var appCategories = await db.Categories.Where(x => x.AppId == appId).ToListAsync();
+    var appCategories = await db.Categories
+    .AsNoTracking()
+    .Where(x => x.AppId == id)
+    .Select(x => new {        
+        x.App,
+        x.Id,
+        x.Name,
+        x.CreatedAt,
+        x.ThumbnailPath
+    })
+    .ToListAsync();
+
     return appCategories;
 })
 .WithName("GetCategoriesByAppId");
 
-app.MapGet("/api/category-items/{id}", async (int categoryId, AppDbContext db) =>
+app.MapGet("/api/category-items/{id}", async (int id, AppDbContext db) =>
 {
-    var categoryItems = await db.Items.Where(x => x.CategoryId == categoryId).ToListAsync();
+    var categoryItems = await db.Items
+    .AsNoTracking()    
+    .Where(x => x.CategoryId == id)
+    .Select(x => new { 
+        x.Category.Name,
+        x.ItemName,
+        x.ThumbnailPath,
+        x.Id
+    })
+    .ToListAsync();
+
     return categoryItems;
 })
 .WithName("GetItemsByCategoryId");
+
+
+
+app.UseCors("corsapp");
 
 app.Run();
 

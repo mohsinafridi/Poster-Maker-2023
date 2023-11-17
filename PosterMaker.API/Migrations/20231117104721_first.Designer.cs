@@ -12,7 +12,7 @@ using PosterMaker.API.Data;
 namespace PosterMaker.API.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20231115191805_first")]
+    [Migration("20231117104721_first")]
     partial class first
     {
         /// <inheritdoc />
@@ -40,6 +40,9 @@ namespace PosterMaker.API.Migrations
                         .HasColumnType("bit");
 
                     b.Property<string>("Name")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ThumbnailPath")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime>("UpdatedAt")
@@ -70,6 +73,9 @@ namespace PosterMaker.API.Migrations
                     b.Property<string>("Name")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("ThumbnailPath")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<DateTime>("UpdatedAt")
                         .HasColumnType("datetime2");
 
@@ -98,6 +104,9 @@ namespace PosterMaker.API.Migrations
                         .HasColumnType("bit");
 
                     b.Property<string>("ItemName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ThumbnailPath")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime>("UpdatedAt")
