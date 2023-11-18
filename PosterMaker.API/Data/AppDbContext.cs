@@ -11,5 +11,7 @@ namespace PosterMaker.API.Data
         public DbSet<App> Apps { get; set; }
         public DbSet<Category> Categories { get; set; }
         public DbSet<Item> Items { get; set; }
+
+        public DbSet<User> Users { get; set; }
     }
 }

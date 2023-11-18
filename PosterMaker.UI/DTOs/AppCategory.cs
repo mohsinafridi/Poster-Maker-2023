@@ -10,6 +10,7 @@ namespace PosterMaker.UI.DTOs
         public DateTime UpdatedAt { get; set; }
         public bool IsDeleted { get; set; }
         public App App { get; set; }
-        public byte[] Content { get; set; }            
+        public string? ThumbnailPath { get; set; }
+        
     }
 }

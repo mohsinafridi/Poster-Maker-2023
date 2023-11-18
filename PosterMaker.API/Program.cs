@@ -1,4 +1,5 @@
 using Azure.Core;
+using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using PosterMaker.API.Data;
@@ -141,6 +142,15 @@ app.MapGet("/api/category-list", async (AppDbContext db) =>
     {
         return await db.Categories
         .AsNoTracking()
+        .Select(x => new {
+            x.App,
+            x.Id,
+            x.Name,
+            x.AppId,
+            x.CreatedAt,
+            x.ThumbnailPath,
+            x.IsDeleted            
+        })
         .ToListAsync();
     }
     catch (Exception)
@@ -227,9 +237,6 @@ app.MapPut("/api/update-Item/{id}", async (int id, [FromBody] Item item, AppDbCo
 
 #region Others
 
-
-#endregion
-
 app.MapGet("/api/app-categories/{id}", async (int id, AppDbContext db) =>
 {
     var appCategories = await db.Categories
@@ -266,7 +273,23 @@ app.MapGet("/api/category-items/{id}", async (int id, AppDbContext db) =>
 })
 .WithName("GetItemsByCategoryId");
 
+#endregion
 
+#region Login
+app.MapPost("/api/login",async([FromBody] User user, AppDbContext db) =>
+{
+    var userObj = await db.Users
+                  .FirstOrDefaultAsync(x => x.Username == user.Username && x.Password == user.Password);
+    
+    if (userObj is not null)
+    {
+        return Results.Ok(userObj);
+    }
+    return Results.NotFound();
+})
+.WithName("login");
+
+#endregion
 
 app.UseCors("corsapp");
 

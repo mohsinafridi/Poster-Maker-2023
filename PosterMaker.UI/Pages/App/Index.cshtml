@@ -1,12 +1,42 @@
-﻿@page "/"
+﻿@page 
 @model PosterMaker.UI.Pages.App.IndexModel
 @{
-    ViewData["Title"] = "App Index";
+    ViewData["Title"] = "App List";
 }
 
 
 <div class="container">
-    <div class="row">
+
+    <div>
+        <h4>App List</h4>
+        <a class="btn btn-default" href="/App/CreateApp" style="float:right;border:1px solid Green;margin: -3px 0px 0px 0px;">Create new app</a>
+    </div>
+
+    <div class="table-responsive">
+        <table cellpadding="0" cellspacing="0" class="table  table-bordered table-hover">
+        <tr>
+            <th>Name</th>
+            <th>Image</th>           
+            <th>Created Date</th>
+            <th>Actions</th>
+        </tr>
+        @foreach (Models.App app in @Model.AppList)
+        {
+            <tr>
+                <td>@app.Name </td>
+                <td>
+                    <img src="@app.ThumbnailPath"
+                         alt='@app.Name'
+                         class='img-fluid'>
+                </td>
+                <td>@app.CreatedAt</td>
+                <td>Edit | Delete</td>
+            </tr>
+        }
+    </table>
+
+    </div>
+   @*  <div class="row">
         <a class="btn btn-default" href="/App/CreateApp">Create new app</a>
         @foreach (var item in Model.AppList)
         {
@@ -24,7 +54,7 @@
             </div>
               
         }
-    </div>
+    </div> *@
     
 </div>
 

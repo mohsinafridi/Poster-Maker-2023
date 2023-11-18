@@ -8,14 +8,32 @@
     ViewData["Title"] = "App's Categories";
 }
 
-
-<h2>
-    List of Categories Page @Model?.CategoryList[0]?.App?.Name
-
-</h2>
-
 <div class="container">
-    <div class="row">
+    <div>
+        <h4>Category List Of App :  @Model?.CategoryList[0]?.App?.Name</h4>
+        <a class="btn btn-default" href="/Category/CreateCategory" style="float:right;border:1px solid Green;">Add a new Category</a>
+    </div>
+
+    <table cellpadding="0" cellspacing="0" class="table">
+        <tr>
+            <th>Name</th>
+            <th>Image</th>
+            <th>Created Date</th>
+        </tr>
+        @foreach (var item in @Model.CategoryList)
+        {
+            <tr>
+                <td>@item.Name</td>
+                <td>
+                    <img src="@item.ThumbnailPath"
+                         alt='@item.Name'
+                         class='img-fluid'>
+                </td>                
+                <td>@item.CreatedAt</td>
+            </tr>
+        }
+    </table>
+    @* <div class="row">
         @foreach (var item in Model.CategoryList)
         {
             <div class="col-md-3 m-3">
@@ -33,15 +51,11 @@
                 </div>
             </div>
         }
-    </div>   
+    </div>    *@
 </div>
 
 @section Scripts{
     <script>
-        $(function () {
-            $('#btn-test').on('click', function () {
-                alert();
-            });
-        });
+        //
     </script>
 }
